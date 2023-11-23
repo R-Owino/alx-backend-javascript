@@ -3,14 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "mocha --require @babel/register --exit"
-  },
-  "author": "",
   "license": "ISC",
   "dependencies": {
     "chai-http": "^4.3.0",
     "express": "^4.17.1"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --require @babel/register --exit"
   },
   "devDependencies": {
     "assert": "^2.1.0",
