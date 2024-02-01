@@ -10,33 +10,34 @@ const fs = require('fs');
 function countStudents(path) {
   return new Promise((resolve, reject) => {
     fs.readFile(path, 'utf8', (err, data) => {
-      const fields = {};
-      const students = {};
-
       if (err) {
         reject(Error('Cannot load the database'));
         return;
       }
 
-      const lines = data.split('\n').filter((line) => line.length > 0);
-      lines.shift();
-      lines.forEach((line) => {
-        const student = line.split(',');
+      const students = data
+        .trim()
+        .split('\n')
+        .map((student) => student.split(','));
+      students.shift();
+      const fields = {};
+
+      students.forEach((student) => {
         if (!fields[student[3]]) {
           fields[student[3]] = [];
         }
         fields[student[3]].push(student[0]);
-        students[student[3]] = (students[student[3]] || 0) + 1;
       });
 
-      console.log(`Number of students: ${lines.length}`);
-      for (const field in students) {
-        if (field) {
-          console.log(`Number of students in ${field}: ${students[field]}. List: ${fields[field].join(', ')}`);
-        }
-      }
+      console.log(`Number of students: ${students.length}`);
+
+      Object.keys(fields).forEach((field) => {
+        const list = fields[field];
+        console.log(`Number of students in ${field}: ${list.length}. List: ${list.join(', ')}`);
+      });
+
       resolve();
-    });
+      });
   });
 }
 
